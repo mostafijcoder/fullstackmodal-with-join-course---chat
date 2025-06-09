@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= user.fullName %>'s Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f9;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .profile-header {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .profile-pic {
+      width: 140px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #ddd;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-details h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #333;
+    }
+
+    .profile-details p {
+      font-size: 16px;
+      margin: 6px 0;
+      color: #555;
+    }
+
+    .section-title {
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    .course-list {
+      list-style-type: disc;
+      margin-left: 1.5rem;
+    }
+
+    .no-courses {
+      color: #888;
+      font-style: italic;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      font-size: 16px;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #0056b3;
+    }
+
+    .social-login {
+      margin-top: 15px;
+      padding: 12px;
+      background-color: #f0f9ff;
+      border-left: 4px solid #2196f3;
+      border-radius: 6px;
+      color: #0366d6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-header">
+      <% if (user.profilePicture) { %>
+        <img src="<%= user.profilePicture %>" alt="Profile Picture" class="profile-pic">
+      <% } else { %>
+        <img src="/images/default-profile.png" alt="Default Picture" class="profile-pic">
+      <% } %>
+
+      <div class="profile-details">
+        <h1><%= user.fullName %>'s Profile</h1>
+        <p><strong>Email:</strong> <%= user.email %></p>
+        <p><strong>Zip Code:</strong> <%= user.zipCode %></p>
+        <p><strong>Created At:</strong> <%= user.createdAt.toLocaleString() %></p>
+        <p><strong>Updated At:</strong> <%= user.updatedAt.toLocaleString() %></p>
+        <p><strong>Last Login:</strong> <%= user.lastLogin ? user.lastLogin.toLocaleString() : 'Never' %></p>
+        <p><strong>Is Admin:</strong> <%= user.isAdmin ? 'Yes' : 'No' %></p>
+      </div>
+    </div>
+
+    <div class="section-title">Courses Enrolled:</div>
+    <ul class="course-list">
+      <% if (user.courses && user.courses.length > 0) { %>
+        <% user.courses.forEach(course => { %>
+          <li><%= course.title %></li>
+        <% }) %>
+      <% } else { %>
+        <li class="no-courses">No courses enrolled.</li>
+      <% } %>
+    </ul>
+
+    <% if (user.socialProvider) { %>
+      <div class="social-login">
+        Logged in via <strong><%= user.socialProvider %></strong>
+        <% if (user.socialId) { %> (ID: <%= user.socialId %>) <% } %>
+      </div>
+    <% } %>
+
+    <a href="/users" class="back-link">← Back to Users List</a>
+  </div>
+</body>
+</html>

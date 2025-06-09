@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== "undefined" ? title : "Recipe App" %></title>
+
+  <!-- Add Bootstrap or your own CSS here -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include("partials/navigation") %>
+  <%- include("courses/_coursesModal") %>
+  <%- include("partials/chatWidget") %>
+
+
+
+  <% if (typeof showNotification !== "undefined" && showNotification) { %>
+    <%- include("partials/notification") %>
+  <% } %>
+
+  <main class="container mt-4">
+    <% if (typeof flashMessages !== "undefined") { %>
+      <% if (flashMessages.error) { %>
+        <div class="alert alert-danger">
+          <% flashMessages.error.forEach(msg => { %>
+            <p><%= msg %></p>
+          <% }) %>
+        </div>
+      <% } %>
+
+      <% if (flashMessages.success) { %>
+        <div class="alert alert-success">
+          <% flashMessages.success.forEach(msg => { %>
+            <p><%= msg %></p>
+          <% }) %>
+        </div>
+      <% } %>
+    <% } %>
+
+    <%- body %>
+  </main>
+
+  <footer class="text-center py-4 text-muted bg-light mt-5">
+    <p>&copy; 2025 Confetti Cuisine</p>
+  </footer>
+
+   <!-- jQuery first -->
+   <script src="/js/jquery.min.js"></script>
+
+   <!-- then Bootstrap’s bundle (which includes Popper) -->
+   <script src="/js/bootstrap.bundle.min.js"></script>
+   
+   <script src="/socket.io/socket.io.js"></script>
+ 
+   <!-- then your own code that depends on them -->
+   <script src="/js/receipeApp.js"></script>
+
+   <script>
+    window.currentUserName = "<%= currentUser ? currentUser.fullName || currentUser.name || currentUser.username : '' %>";
+  </script>
+  
+ </body>
+ </html>
+ 
+</body>
+</html>

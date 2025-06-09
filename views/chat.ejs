@@ -1,0 +1,39 @@
+<%- include("layout", { title: "Chat" }) %>
+
+<div id="chat-widget" class="chat-widget">
+  <div id="chat-header">
+    <span>💬 Chat</span>
+    <button id="toggle-chat" aria-label="Minimize chat">_</button>
+  </div>
+
+  <div id="chat-body">
+    <ul id="chat-messages"></ul>
+
+    <form id="chat-form" class="chat-form d-flex align-items-end p-2 border-top bg-light">
+      <textarea
+        id="chat-input"
+        class="form-control me-2 flex-grow-1"
+        placeholder="Type a message..."
+        rows="1"
+        style="resize: none; overflow:hidden; min-height: 48px; border-radius: 10px; padding: 10px;"
+      ></textarea>
+
+      <div class="chat-actions d-flex flex-column align-items-center me-2">
+        <button type="button" class="btn btn-light mb-1" id="emoji-button" title="Insert Emoji">😊</button>
+        <input type="file" id="file-input" class="d-none" accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx" />
+        <button type="button" class="btn btn-light" id="file-button" title="Send File">📎</button>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+        id="send-button"
+        title="Send"
+        style="width: 38px; height: 38px; font-size: 16px; padding: 0;"
+      >
+        ➤
+      </button>
+    </form>
+  </div>
+</div>
+

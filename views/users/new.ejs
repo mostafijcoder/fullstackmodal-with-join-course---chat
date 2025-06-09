@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create New User</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f5f5f5;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+    video, canvas {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+    .flash-message {
+      background-color: #ffe0e0;
+      color: #b30000;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .flash-success {
+      background-color: #e0ffe0;
+      color: #006600;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Create New User</h1>
+
+    <% if (flashMessages.error && flashMessages.error.length > 0) { %>
+      <div class="flash-message">
+        <%= flashMessages.error[0] %>
+      </div>
+    <% } %>
+
+    <% if (flashMessages.success && flashMessages.success.length > 0) { %>
+      <div class="flash-message flash-success">
+        <%= flashMessages.success[0] %>
+      </div>
+    <% } %>
+
+    <form action="/users" method="POST" enctype="multipart/form-data">
+      <label>First Name:
+        <input type="text" name="firstName" required>
+      </label>
+      
+      <label>Last Name:
+        <input type="text" name="lastName" required>
+      </label>
+
+      <label>Email:
+        <input type="email" name="email" required>
+      </label>
+
+      <label>Password:
+        <input type="password" name="password" required>
+      </label>
+
+      <label>Zip Code:
+        <input type="text" name="zipCode" required>
+      </label>
+
+      <label>
+        <input type="checkbox" name="isAdmin"> Is Admin
+      </label>
+
+      <label>Upload Profile Picture:
+        <input type="file" name="profilePicture" accept="image/*" id="profilePictureInput">
+      </label>
+
+      <label>Or take a picture using your camera:</label>
+      <video id="video" autoplay playsinline></video>
+      <button type="button" id="captureBtn">Capture Photo</button>
+      <canvas id="canvas" style="display: none;"></canvas>
+      <input type="hidden" name="capturedImage" id="capturedImage">
+
+      <button type="submit" style="margin-top: 20px;">Create User</button>
+    </form>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const captureBtn = document.getElementById("captureBtn");
+    const profileInput = document.getElementById("profilePictureInput");
+    const hiddenImageInput = document.getElementById("capturedImage");
+
+    // Start video stream
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        console.error("Camera access denied:", err);
+      });
+
+    // Capture image on button click
+    captureBtn.addEventListener("click", () => {
+      const context = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.style.display = "block";
+
+      const imageDataURL = canvas.toDataURL("image/jpeg");
+      hiddenImageInput.value = imageDataURL;
+
+      // Clear file input
+      profileInput.value = "";
+    });
+  </script>
+</body>
+</html>

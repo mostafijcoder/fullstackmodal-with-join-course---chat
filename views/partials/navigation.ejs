@@ -1,0 +1,23 @@
+<nav class="navbar" style="position: relative;">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/users">User</a></li>
+      <li><a href="/courses">Courses</a></li>
+      <li><a href="/enroll">Enroll</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  
+    <div class="auth-area">
+      <% if (loggedIn) { %>
+        <span class="user-info">
+          <%= currentUser.fullName %> <span class="badge">Logged In</span>
+        </span>
+        <a href="/users/logout" class="btn nav-btn">Log out</a>
+      <% } else { %>
+        <a href="/users/login" class="btn nav-btn">Sign In</a>
+      <% } %>
+    </div>
+  </nav>
+
+ 
+  

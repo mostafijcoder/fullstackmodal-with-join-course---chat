@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="/css/subscribers.css">
+
+<div class="container">
+    <h1>Subscribers List</h1>
+
+    <!-- Search by ZIP Code -->
+    <form id="searchForm" method="GET" action="/subscribers/searchByZip">
+        <label for="zipCode">Search by ZIP Code:</label>
+        <input type="number" name="zipCode" required placeholder="Enter ZIP Code">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Search by Email -->
+    <form id="emailSearchForm" method="GET" action="/subscribers/searchByEmail">
+        <label for="email">Search by Email:</label>
+        <input type="email" name="email" placeholder="Enter Email">
+        <button type="submit">Search</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Zip Code</th>
+                <th>Enrolled Courses</th>
+                <th>Enrollment Type</th>
+                <th>Actions</th> <!-- ✅ New -->
+            </tr>
+        </thead>
+        <tbody>
+            <% subscribers.forEach((subscriber, index) => { %>
+                <tr>
+                    <td><%= index + 1 %></td>
+                    <td><%= subscriber.name %></td>
+                    <td><%= subscriber.email %></td>
+                    <td><%= subscriber.zipCode %></td>
+                    <td>
+                        <% if (subscriber.courses.length > 0) { %>
+                            <% subscriber.courses.forEach(course => { %>
+                                <p><%= course.title %></p>
+                            <% }) %>
+                        <% } else { %>
+                            No courses enrolled
+                        <% } %>
+                    </td>
+                    <td><%= subscriber.courses.length > 1 ? "Multiple Courses" : "Single Course" %></td>
+    
+                    <!-- ✅ Action Buttons -->
+                    <td>
+                        <a href="/subscribers/<%= subscriber._id %>" class="btn-view">View</a>
+                        <a href="/subscribers/<%= subscriber._id %>/edit" class="btn-edit">Edit</a>
+                        <form action="/subscribers/<%= subscriber._id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit" class="btn-delete" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    
+
+    <a href="/" class="btn">Go Back to Home</a>
+</div>
+
+<script src="/js/subscribers.js"></script>
